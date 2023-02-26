@@ -2,15 +2,15 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Laravel\Sanctum\HasApiTokens;
+use Laravel\Passport\HasApiTokens;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable;
+    use HasApiTokens, Notifiable;
 
     /**
      * The attributes that are mass assignable.
@@ -18,9 +18,13 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
-        'name',
+        'username',
+        'firstname',
+        'lastname',
+        'phone',
         'email',
         'password',
+
     ];
 
     /**
@@ -31,6 +35,7 @@ class User extends Authenticatable
     protected $hidden = [
         'password',
         'remember_token',
+        'reset_code'
     ];
 
     /**
@@ -41,4 +46,22 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+
+
+    public function roles()
+    {
+        return $this->belongsToMany('App\Models\Role');
+    }
+
+
+    public function shops()
+    {
+       return $this->hasMany(Shop::class);
+    }
+
+    public function teller()
+    {
+       return $this->hasOne(Teller::class);
+    }
 }
