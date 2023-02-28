@@ -28,7 +28,7 @@ private $user;
      */
     public function build()
     {
-        return $this->markdown('Mail.PasswordChanged')->with([
+        return $this->markdown('Mail.Passwordchanged')->with([
             'user'=>$this->user
         ]);
     }
