@@ -93,33 +93,49 @@ class ProductController extends Controller
             $kalas = [];
             $count=count($request->colour);
             Log::info($count);
+            
             for ($i = 0; $i < $count; $i++) {
-                Log::info($i);
-                $kal= Colours::where('title',$request->colour[$i]['color'])->first();
-                if(!$kal){
-                    $colours = new Colours();
-                    $colours->title = $request->colour[$i]['color'];
-
-                    $colours->save();
-                   Log::info($colours);
-                    $stock = new Stock();
-                    $stock->stock = $request->colour[$i]['stock'];
-                    $stock->colours_id = $colours->id;
-                    $stock->product_id = $product->id;
-                    $stock->lowstock =$request->colour[$i]['lowstock'];
-                    $stock->save();
-                    array_push($kalas, $colours->id);
-                }else{
-                    $stock = new Stock();
-                    $stock->stock = $request->colour[$i]['stock'];
-                    $stock->colours_id = $kal->id;
-                    $stock->product_id = $product->id;
-                    $stock->lowstock =$request->colour[$i]['lowstock'];
-                    $stock->save();
-                    array_push($kalas, $kal->id);
+                if ($i > $count) {
+                    # code...
+                } else {
+                    Log::info($i);
+                    $kal= Colours::where('title',$request->colour[$i]['color'])->first();
+                    if(!$kal){
+                        $colours = new Colours();
+                        $colours->title = $request->colour[$i]['color'];
+    
+                        $colours->save();
+                       Log::info($colours);
+                       if (isset($request->colour[$i]['stock']) && isset($request->colour[$i]['stock'])) {
+                        $stock = new Stock();
+                        $stock->stock = $request->colour[$i]['stock'];
+                        $stock->colours_id = $colours->id;
+                        $stock->product_id = $product->id;
+                        $stock->lowstock =$request->colour[$i]['lowstock'];
+                        $stock->save();
+                        array_push($kalas, $colours->id);
+                       }
+                      
+                       
+                    }else{
+                        if (isset($request->colour[$i]['stock']) && isset($request->colour[$i]['stock'])) {
+                            $stock = new Stock();
+                        $stock->stock = $request->colour[$i]['stock'];
+                        $stock->colours_id = $kal->id;
+                        $stock->product_id = $product->id;
+                        $stock->lowstock =$request->colour[$i]['lowstock'];
+                        $stock->save();
+                        array_push($kalas, $kal->id);
+                        }
+                       
+                       
+                    }
                 }
+                
+               
 
             }
+            Log::info($kalas);
             // foreach ($request->colour as $key => $value) {
             //     Log::info($value);
             //     $colours = new Colours();
