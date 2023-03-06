@@ -50,6 +50,6 @@ Route::post('/shop-products', [ProductController::class, 'productsByShop']);
 Route::post('/category-products', [CategoriesController::class, 'productsByCategory']);
 Route::post('/cart', [OrderController::class, 'getCart']);
 Route::post('/search', [SearchController::class,'search']);
-Route::post('/stock', [ProductController::class,'getstockbycolor']);
+// Route::post('/stock', [ProductController::class,'getstockbycolor']);
 // Route::post('/categories',[CategoriesController::class,'Categoriesbyshop']);
 });
